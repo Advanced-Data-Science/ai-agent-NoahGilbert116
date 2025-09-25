@@ -1,0 +1,45 @@
+import requests
+import base64
+
+# 1. Fill in your credentials (from Spotify Developer Dashboard)
+CLIENT_ID = "your_client_id_here"
+CLIENT_SECRET = "your_client_secret_here"
+
+# 2. Get an access token using Client Credentials Flow
+def get_access_token(client_id, client_secret):
+    # Spotify requires credentials to be sent in base64 encoding
+    auth_string = f"{client_id}:{client_secret}"
+    auth_bytes = auth_string.encode("utf-8")
+    auth_base64 = base64.b64encode(auth_bytes).decode("utf-8")
+
+    url = "https://accounts.spotify.com/api/token"
+    headers = {
+        "Authorization": f"Basic {auth_base64}",
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    data = {"grant_type": "client_credentials"}
+
+    response = requests.post(url, headers=headers, data=data)
+    response.raise_for_status()  # raises an error if authentication fails
+    return response.json()["access_token"]
+
+# 3. Function to make Spotify API requests
+def spotify_request(endpoint, token, params=None):
+    base_url = "https://api.spotify.com/v1/"
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.get(base_url + endpoint, headers=headers, params=params)
+    response.raise_for_status()
+    return response.json()
+
+# 4. Example usage
+if __name__ == "__main__":
+    token = get_access_token(CLIENT_ID, CLIENT_SECRET)
+    
+    # Example: Search for an artist
+    result = spotify_request("search", token, {"q": "Taylor Swift", "type": "artist"})
+    print(result["artists"]["items"][0]["name"], "-", result["artists"]["items"][0]["genres"])
+
+    # Example: Get audio features for a track
+    track_id = "3n3Ppam7vgaVa1iaRUc9Lp"  # "Mr. Brightside"
+    features = spotify_request(f"audio-features/{track_id}", token)
+    print("Danceability:", features["danceability"], "Energy:", features["energy"])
