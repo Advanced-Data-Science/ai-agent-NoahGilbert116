@@ -1,0 +1,87 @@
+# Exercise 2.1: Simple API call without authentication
+get_cat_fact <- function() {
+  tryCatch({
+    response <- GET("https://catfact.ninja/fact")
+    
+    if (status_code(response) == 200) {
+      content <- content(response, "parsed", encoding = "UTF-8")
+      return(content$fact)
+    } else {
+      message(paste("Error:", status_code(response)))
+      return(NULL)
+    }
+  }, error = function(e) {
+    message(paste("An error occurred:", e$message))
+    return(NULL)
+  })
+}
+get_cat_fact()
+
+# Get multiple cat facts
+get_multiple_cat_facts <- function(n = 5) {
+  facts <- vector("character", n)
+  
+  for (i in 1:n) {
+    fact <- get_cat_fact()
+    if (!is.null(fact)) {
+      facts[i] <- fact
+    }
+    Sys.sleep(1) # Respectful delay
+  }
+  
+  # Remove any NULL entries
+  facts <- facts[facts != ""]
+  
+  # Save to JSON
+  facts_list <- list(
+    collection_date = Sys.time(),
+    total_facts = length(facts),
+    facts = facts
+  )
+  
+  write_json(facts_list, "cat_facts.json", pretty = TRUE)
+  return(facts)
+}
+
+get_multiple_cat_facts()
+
+# Exercise 2.2: API with parameters
+get_public_holidays <- function(country_code = "US", year = 2024) {
+  url <- paste0("https://date.nager.at/api/v3/PublicHolidays/", year, "/", country_code)
+  
+  tryCatch({
+    response <- GET(url)
+    stop_for_status(response) # This will throw an error for bad status codes
+    
+    holidays <- content(response, "parsed", encoding = "UTF-8")
+    return(holidays)
+  }, error = function(e) {
+    message(paste("Request failed:", e$message))
+    return(NULL)
+  })
+}
+get_public_holidays()
+
+# Compare holidays across countries
+compare_holidays <- function() {
+  countries <- c("US", "CA", "GB", "FR", "JP")
+  results <- data.frame(
+    country = character(),
+    holiday_count = integer(),
+    stringsAsFactors = FALSE
+  )
+  
+  for (country in countries) {
+    holidays <- get_public_holidays(country)
+    if (!is.null(holidays)) {
+      count <- length(holidays)
+      results <- rbind(results, data.frame(country = country, holiday_count = count))
+      message(paste(country, "has", count, "public holidays in 2024"))
+    }
+    Sys.sleep(0.5) # Respectful delay
+  }
+  
+  return(results)
+}
+
+compare_holidays()
