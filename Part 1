@@ -1,0 +1,9 @@
+### Scenario
+**Main Objective:** Find out what effects music popularity based on things like tempo, length, artist region etc.
+- **Data Sources:** Kaggle dataset and spotify API
+- **Data Types:** Categorical: Playlist, track_id, track_name, artist_name, album name
+                  Date tyope variables: Release_Date and added_at
+                  Quantitative: Popularity
+- **Geographic Scope:** queries needed from API
+        Mainly GET for now as I am just retreiving the data
+- **Time Range:** within the past 5 years as it is the current top 50 songs for each country
