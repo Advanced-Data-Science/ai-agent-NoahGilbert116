@@ -1,87 +1,52 @@
-# Exercise 2.1: Simple API call without authentication
-get_cat_fact <- function() {
-  tryCatch({
-    response <- GET("https://catfact.ninja/fact")
-    
-    if (status_code(response) == 200) {
-      content <- content(response, "parsed", encoding = "UTF-8")
-      return(content$fact)
-    } else {
-      message(paste("Error:", status_code(response)))
-      return(NULL)
-    }
-  }, error = function(e) {
-    message(paste("An error occurred:", e$message))
-    return(NULL)
-  })
-}
-get_cat_fact()
+import requests
+import json
 
-# Get multiple cat facts
-get_multiple_cat_facts <- function(n = 5) {
-  facts <- vector("character", n)
-  
-  for (i in 1:n) {
-    fact <- get_cat_fact()
-    if (!is.null(fact)) {
-      facts[i] <- fact
-    }
-    Sys.sleep(1) # Respectful delay
-  }
-  
-  # Remove any NULL entries
-  facts <- facts[facts != ""]
-  
-  # Save to JSON
-  facts_list <- list(
-    collection_date = Sys.time(),
-    total_facts = length(facts),
-    facts = facts
-  )
-  
-  write_json(facts_list, "cat_facts.json", pretty = TRUE)
-  return(facts)
-}
+# Make your first API call to get a random cat fact
+def get_cat_fact():
+    url = "https://catfact.ninja/fact"
+    for i in range(5):
+        try:
+            # Send GET request to the API
+            response = requests.get(url)
+            
+            # Check if request was successful
+            if response.status_code == 200:
+                # Parse JSON response
+                data = response.json()
+                return data['fact']
+            else:
+                print(f"Error: {response.status_code}")
+                return None
+        
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
 
-get_multiple_cat_facts()
+def get_cat_facts(n=5):
+    """Fetch multiple cat facts."""
+    facts = []
+    for _ in range(n):
+        fact = get_cat_fact()
+        if fact:
+            facts.append(fact)
+    return facts
 
-# Exercise 2.2: API with parameters
-get_public_holidays <- function(country_code = "US", year = 2024) {
-  url <- paste0("https://date.nager.at/api/v3/PublicHolidays/", year, "/", country_code)
-  
-  tryCatch({
-    response <- GET(url)
-    stop_for_status(response) # This will throw an error for bad status codes
-    
-    holidays <- content(response, "parsed", encoding = "UTF-8")
-    return(holidays)
-  }, error = function(e) {
-    message(paste("Request failed:", e$message))
-    return(NULL)
-  })
-}
-get_public_holidays()
+def save_to_json(facts, filename="cat_facts.json"):
+    """Save facts to a JSON file."""
+    try:
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(facts, f, indent=4)
+        print(f"Saved {len(facts)} facts to {filename}")
+    except Exception as e:
+        print(f"Error saving file: {e}")
 
-# Compare holidays across countries
-compare_holidays <- function() {
-  countries <- c("US", "CA", "GB", "FR", "JP")
-  results <- data.frame(
-    country = character(),
-    holiday_count = integer(),
-    stringsAsFactors = FALSE
-  )
-  
-  for (country in countries) {
-    holidays <- get_public_holidays(country)
-    if (!is.null(holidays)) {
-      count <- length(holidays)
-      results <- rbind(results, data.frame(country = country, holiday_count = count))
-      message(paste(country, "has", count, "public holidays in 2024"))
-    }
-    Sys.sleep(0.5) # Respectful delay
-  }
-  
-  return(results)
-}
+#if __name__ == "__main__":
+    facts = get_cat_facts(5)
+    for f in facts:
+        print("-", f)
+    save_to_json(facts)
 
-compare_holidays()
+cat_fact = get_cat_fact()
+print(f"Cat fact: {cat_fact}")
+cat_fact2 = get_cat_facts()
+print(f"Cat fact2: {cat_fact2}")
