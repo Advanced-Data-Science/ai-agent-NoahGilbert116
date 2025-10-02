@@ -1,0 +1,35 @@
+2025-10-02 17:40:11,921 | INFO | Starting collection
+2025-10-02 17:40:11,921 | ERROR | Fatal error: 'regions'
+Traceback (most recent call last):
+  File "/Users/noahgilbert/Documents/CS_3870/AiAgent2.py", line 84, in run
+    for region in self.config["regions"]:
+KeyError: 'regions'
+2025-10-02 17:40:11,921 | INFO | Done.
+2025-10-02 17:41:21,965 | INFO | Starting collection
+2025-10-02 17:41:24,123 | INFO | Resolved 'Top 50 - United States' → 2jz4bJ8KwIVV480GNFSfk7
+2025-10-02 17:41:24,123 | INFO | Fetching tracks for Top 50 - United States
+2025-10-02 17:41:30,092 | INFO | Resolved 'Top 50 - Great Britain' → 45B1EGRDWDxLTL0t4BcVCy
+2025-10-02 17:41:30,093 | INFO | Fetching tracks for Top 50 - Great Britain
+2025-10-02 17:41:36,400 | INFO | Resolved 'Top 50 - French' → 23dbohibECe7Fnt0TyezQ9
+2025-10-02 17:41:36,400 | INFO | Fetching tracks for Top 50 - French
+2025-10-02 17:41:41,659 | INFO | Resolved 'JP Top 50' → 7i9jfzpC3DTqsoHCRTm5E9
+2025-10-02 17:41:41,660 | INFO | Fetching tracks for JP Top 50
+2025-10-02 17:41:45,130 | INFO | Resolved 'Top 50 - Brasil' → 0Sbjnr7ivmZA6NM4s7sRdH
+2025-10-02 17:41:45,131 | INFO | Fetching tracks for Top 50 - Brasil
+2025-10-02 17:41:47,508 | INFO | Wrote 250 rows → data/raw/tracks_20251002_174147.csv
+2025-10-02 17:41:47,516 | INFO | Wrote metadata and quality report
+2025-10-02 17:41:47,516 | INFO | Done.
+2025-10-02 18:36:19,680 | INFO | Starting collection
+2025-10-02 18:36:22,370 | INFO | Resolved 'Top 50 - United States' → 2jz4bJ8KwIVV480GNFSfk7
+2025-10-02 18:36:22,371 | INFO | Fetching tracks for Top 50 - United States
+2025-10-02 18:36:28,316 | INFO | Resolved 'Top 50 - Great Britain' → 45B1EGRDWDxLTL0t4BcVCy
+2025-10-02 18:36:28,317 | INFO | Fetching tracks for Top 50 - Great Britain
+2025-10-02 18:36:34,976 | INFO | Resolved 'Top 50 - French' → 23dbohibECe7Fnt0TyezQ9
+2025-10-02 18:36:34,976 | INFO | Fetching tracks for Top 50 - French
+2025-10-02 18:36:39,990 | INFO | Resolved 'JP Top 50' → 7i9jfzpC3DTqsoHCRTm5E9
+2025-10-02 18:36:39,991 | INFO | Fetching tracks for JP Top 50
+2025-10-02 18:36:44,188 | INFO | Resolved 'Top 50 - Brasil' → 0Sbjnr7ivmZA6NM4s7sRdH
+2025-10-02 18:36:44,188 | INFO | Fetching tracks for Top 50 - Brasil
+2025-10-02 18:36:46,703 | INFO | Wrote 250 rows → data/raw/tracks_20251002_183646.csv
+2025-10-02 18:36:46,709 | INFO | Wrote metadata and quality report
+2025-10-02 18:36:46,709 | INFO | Done.
